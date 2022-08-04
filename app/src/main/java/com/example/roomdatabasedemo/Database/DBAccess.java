@@ -2,6 +2,7 @@ package com.example.roomdatabasedemo.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -9,6 +10,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.example.roomdatabasedemo.Entities.Product;
+import com.example.roomdatabasedemo.ListRow;
+
+import java.util.ArrayList;
 
 public class DBAccess extends SQLiteOpenHelper {
 
@@ -31,7 +35,8 @@ public class DBAccess extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS products");
-        sqLiteDatabase.execSQL(TABLE_PRODUCTS);
+
+        onCreate(sqLiteDatabase);
     }
 
     // MÉTODO PARA INSERTAR DATOS
@@ -62,4 +67,35 @@ public class DBAccess extends SQLiteOpenHelper {
         // Retornar id generado
         return idproduct;
     }
+
+    // Consultas a la base de datos
+    public ArrayList<Product> selectAllData(){
+        // Solicitar acceso de tipo lectura
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Instancia producto
+        Product product;
+
+        // Instanciado el arraylist
+        ArrayList<Product> dataList = new ArrayList<>();
+
+        // Desencadenar la consulta y traer los datos
+        Cursor cursor = db.rawQuery("SELECT * FROM products", null);
+
+        // Obteniendo los datos obtenidos en la consulta anterior
+        while (cursor.moveToNext()){
+            // Instanciando la entidad
+            product = new Product();
+
+            // Asignar los datos del cursos a la ENTIDAD
+            product.setIdproduct(cursor.getInt(0));
+            product.setNameproduct(cursor.getString(1));
+
+            // Añadiendo el objeto al array
+            dataList.add(product);
+        }
+
+        return dataList;
+    }
+
 }

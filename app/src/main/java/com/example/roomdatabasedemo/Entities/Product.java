@@ -1,6 +1,8 @@
 package com.example.roomdatabasedemo.Entities;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int idproduct;
     private String nameproduct;
 

@@ -30,7 +30,7 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     // Declarate variable
-    private List<ListRow> dataList;
+    private List<Product> dataList;
     private LayoutInflater mInflater;
     private Context context;
     private DBAccess access;
@@ -39,11 +39,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     // Interfaz onclick elementos
     public interface OnItemClickListener {
-        void onItemClick(ListRow listRow);
+        void onItemClick(Product product);
     }
 
     // Constructor
-    public MainAdapter(Context context, List<ListRow> dataList, DBAccess access, MainAdapter.OnItemClickListener listenerEdit, MainAdapter.OnItemClickListener listenerDelete){
+    public MainAdapter(Context context, List<Product> dataList, DBAccess access, MainAdapter.OnItemClickListener listenerEdit, MainAdapter.OnItemClickListener listenerDelete){
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.dataList = dataList;
@@ -98,7 +98,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         }
 
         // Listener en escucha del evento click de los botones
-        public void bindData(final ListRow listRow) {
+        public void bindData(final Product listRow) {
             // Set text on text view
             textView.setText(listRow.getNameproduct());
             btEdit.setOnClickListener(new View.OnClickListener() {

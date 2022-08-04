@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
 import com.example.roomdatabasedemo.Database.DBAccess;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnAdd, btnReset, btnEdit, btnDelete;
     private RecyclerView recyclerView;
 
-    private ArrayList<ListRow> dataList;
+    private ArrayList<Product> dataList;
     private ArrayList<String> dataShow;
 
     LinearLayoutManager linearLayoutManager;
@@ -117,14 +118,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Initialize adapter
         adapter = new MainAdapter(this, dataList, access, new MainAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(ListRow listRow) {
+            public void onItemClick(Product listRow) {
                 // Editar datos del producto
                 editProduct(listRow.getIdproduct(), listRow.getNameproduct());
             }
         },
         new MainAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(ListRow listRow) {
+            public void onItemClick(Product listRow) {
                 // Eliminar producto
                 validateDeletion(listRow.getIdproduct());
             }
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SQLiteDatabase db = access.getReadableDatabase();
 
         // Instancia producto
-        ListRow product;
+        Product product;
 
         // Instanciado el arraylist
         dataList = new ArrayList<>();
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Obteniendo los datos obtenidos en la consulta anterior
         while (cursor.moveToNext()){
             // Instanciando la entidad
-            product = new ListRow();
+            product = new Product();
 
             // Asignar los datos del cursos a la ENTIDAD
             product.setIdproduct(cursor.getInt(0));
@@ -289,7 +290,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Refrescar datos en la lista de elementos
      */
     private void refreshDataList(){
-        queryData();
+        //queryData();
+        dataList = access.selectAllData();
         loadData();
     }
 
